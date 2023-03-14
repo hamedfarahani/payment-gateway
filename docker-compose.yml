@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: gateway.app
+        restart: always
+        volumes:
+            - .:/var/www/html
+        command: bash -c "composer i && php artisan key:generate &&  php-fpm"
+        depends_on:
+            - postgres
+            - nginx
+        networks:
+            - payment_network
+    postgres:
+        image: postgres:latest
+        container_name: gateway.postgres
+        restart: always
+        environment:
+            POSTGRES_DB: payment
+            POSTGRES_USER: hamed
+            POSTGRES_PASSWORD: hamed
+        volumes:
+            - /var/lib/postgresql/data:/var/lib/postgresql/data
+        networks:
+            - payment_network
+        ports:
+            - '5432:5432'
+    nginx:
+        build:
+            context: .
+            dockerfile: Dockerfile.nginx
+        restart: always
+        container_name: gateway.nginx
+        ports:
+            - "8000:80"
+        networks:
+            - payment_network
+        volumes:
+            - ./default.conf:/etc/nginx/conf.d/default.conf
+            - .:/var/www/html
+networks:
+    payment_network:
+        driver: bridge
