@@ -26,7 +26,7 @@ define startup
 endef
 
 start:
-	docker-compose -f $(COMPOSE_FILES) exec app sh -c '/bin/sh start.sh'
+	docker-compose -f $(COMPOSE_FILES) exec application sh -c '/bin/sh start.sh'
 
 build:
 	docker-compose -f $(COMPOSE_FILES) up -d --build
@@ -51,7 +51,8 @@ update:
 	docker-compose -f $(COMPOSE_FILES) exec --user=$(USER) php sh -c 'composer update'
 
 test:
-	docker-compose -f $(COMPOSE_FILES) exec app php artisan test
+	docker-compose -f $(COMPOSE_FILES) exec application php artisan test
 
 store:
-	docker-compose -f $(COMPOSE_FILES) exec app php artisan book:store
+	docker-compose -f $(COMPOSE_FILES) exec application php artisan book:store
+

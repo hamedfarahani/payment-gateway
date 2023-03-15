@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-    php:
+    application:
         build:
             context: .
             dockerfile: Dockerfile

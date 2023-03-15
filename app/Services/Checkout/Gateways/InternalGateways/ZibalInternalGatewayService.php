@@ -69,7 +69,6 @@ class ZibalInternalGatewayService implements InternalGatewayInterface
         }
         // Get payment data from zibal
         $this->response = $this->restConnector('post', config('zibal.paymentInquiry'), $validateData);
-        dd($paymentStatus);
 
         if (isset($this->response['result']) && $this->response['result'] !== 100) {
             throw new FailedPayment();

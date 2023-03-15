@@ -4,3 +4,4 @@ cp .env.example .env
 composer install
 chmod 777 -R storage/ vendor/
 composer dump-autoload
+php artisan migrate:fresh --seed
